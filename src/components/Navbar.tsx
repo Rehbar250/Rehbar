@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
+import { Sun, Moon } from 'lucide-react';
 
 const navItems = [
   { name: 'About', href: '#about' },
@@ -12,6 +14,7 @@ const navItems = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { scrollYProgress } = useScroll();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,12 +52,21 @@ export default function Navbar() {
           ))}
         </nav>
         {/* Mobile menu could be added here later */}
-        <a 
-          href="#contact"
-          className="hidden md:inline-flex px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors rounded-md text-sm font-semibold border border-primary/20 hover:border-primary"
-        >
-          Hire Me
-        </a>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg bg-surface hover:bg-gray-800 transition-colors border border-gray-800 text-textSecondary hover:text-primary"
+            aria-label="Toggle theme"
+          >
+            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+          </button>
+          <a 
+            href="#contact"
+            className="hidden md:inline-flex px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors rounded-md text-sm font-semibold border border-primary/20 hover:border-primary"
+          >
+            Hire Me
+          </a>
+        </div>
       </div>
     </header>
   );

@@ -1,19 +1,51 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { useRef, useState } from 'react';
+import emailjs from 'emailjs-com';
 
 const LinkedinIcon = ({ size = 24 }: { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-    <rect width="4" height="12" x="2" y="9"/>
-    <circle cx="4" cy="4" r="2"/>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
   </svg>
 );
 
 export default function Contact() {
+  const form = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.current) return;
+
+    setIsSubmitting(true);
+
+    // REPLACE THESE WITH YOUR ACTUAL EMAILJS CREDENTIALS
+    const SERVICE_ID = 'service_sylarzg';
+    const TEMPLATE_ID = 'template_re2hgng';
+    const PUBLIC_KEY = 'aNB5uiPw7ScQycJqP';
+
+    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
+      .then(() => {
+        setStatus({ type: 'success', message: 'Message sent successfully! I will get back to you soon.' });
+        form.current?.reset();
+      })
+      .catch((error) => {
+        console.error('EmailJS Error:', error);
+        setStatus({ type: 'error', message: 'Failed to send message. Please try again later.' });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        setTimeout(() => setStatus({ type: null, message: '' }), 5000);
+      });
+  };
+
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background glowing effects */}
-       <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-primary/10 rounded-full blur-[150px] -z-10" />
+      <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-primary/10 rounded-full blur-[150px] -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
@@ -40,7 +72,7 @@ export default function Contact() {
             className="lg:col-span-1 space-y-8"
           >
             <div className="bg-surface border border-gray-800 p-8 rounded-2xl shadow-xl hover:border-primary/30 transition-all flex flex-col gap-6">
-              
+
               <a href="mailto:mrehbar2153@gmail.com" className="flex items-start gap-4 group">
                 <div className="bg-primary/10 p-4 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-colors glow">
                   <Mail size={24} />
@@ -92,27 +124,39 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-2"
           >
-            <form className="bg-surface border border-gray-800 p-8 md:p-12 rounded-2xl shadow-xl flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+            <form ref={form} className="bg-surface border border-gray-800 p-8 md:p-12 rounded-2xl shadow-xl flex flex-col gap-6" onSubmit={sendEmail}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-textSecondary mb-2">Your Name</label>
-                  <input type="text" id="name" className="w-full bg-background border border-gray-700 rounded-lg px-4 py-3 text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="John Doe"/>
+                  <input type="text" id="name" name="name" required className="w-full bg-background border border-gray-700 rounded-lg px-4 py-3 text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="John Doe" />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-textSecondary mb-2">Your Email</label>
-                  <input type="email" id="email" className="w-full bg-background border border-gray-700 rounded-lg px-4 py-3 text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="john@example.com"/>
+                  <input type="email" id="email" name="email" required className="w-full bg-background border border-gray-700 rounded-lg px-4 py-3 text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="john@example.com" />
                 </div>
               </div>
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-textSecondary mb-2">Subject</label>
-                <input type="text" id="subject" className="w-full bg-background border border-gray-700 rounded-lg px-4 py-3 text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Project Inquiry"/>
+                <input type="text" id="subject" name="subject" className="w-full bg-background border border-gray-700 rounded-lg px-4 py-3 text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Project Inquiry" />
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-textSecondary mb-2">Message</label>
-                <textarea id="message" rows={5} className="w-full bg-background border border-gray-700 rounded-lg px-4 py-3 text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none" placeholder="Hello Rehbar, I would like to talk about..."></textarea>
+                <textarea id="message" name="message" rows={5} required className="w-full bg-background border border-gray-700 rounded-lg px-4 py-3 text-text focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none" placeholder="Hello Rehbar, I would like to talk about..."></textarea>
               </div>
-              <button className="flex items-center justify-center gap-2 w-full bg-primary text-white font-semibold py-4 rounded-lg hover:bg-primaryDark transition-all glow mt-2">
-                Send Message <Send size={18} />
+
+              {status.type && (
+                <div className={`p-4 rounded-lg text-sm font-medium mb-2 ${status.type === 'success' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'
+                  }`}>
+                  {status.message}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`flex items-center justify-center gap-2 w-full bg-primary text-white font-semibold py-4 rounded-lg hover:bg-primaryDark transition-all glow mt-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'} <Send size={18} />
               </button>
             </form>
           </motion.div>

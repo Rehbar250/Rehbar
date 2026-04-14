@@ -6,21 +6,24 @@ import Experience from './components/Experience';
 import EducationCertifications from './components/EducationCertifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
   return (
-    <div className="relative w-full min-h-screen">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Experience />
-        <EducationCertifications />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <ThemeProvider>
+      <div className="relative w-full min-h-screen bg-background text-text transition-colors duration-300">
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Skills />
+          <Experience />
+          <EducationCertifications />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 

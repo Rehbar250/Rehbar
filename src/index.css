@@ -1,18 +1,40 @@
 @import "tailwindcss";
 
+:root {
+  --background: #FFFFFF;
+  --surface: #F3F4F6;
+  --text: #111827;
+  --textSecondary: #4B5563;
+  --primary: #3B82F6;
+  --primaryDark: #2563EB;
+  --border: #E5E7EB;
+}
+
+.dark {
+  --background: #0B0F19;
+  --surface: #111827;
+  --text: #F3F4F6;
+  --textSecondary: #9CA3AF;
+  --primary: #3B82F6;
+  --primaryDark: #2563EB;
+  --border: #1F2937;
+}
+
 @theme {
-  --color-background: #0B0F19;
-  --color-surface: #111827;
-  --color-primary: #3B82F6;
-  --color-primaryDark: #2563EB;
-  --color-text: #F3F4F6;
-  --color-textSecondary: #9CA3AF;
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-primary: var(--primary);
+  --color-primaryDark: var(--primaryDark);
+  --color-text: var(--text);
+  --color-textSecondary: var(--textSecondary);
+  --color-gray-800: var(--border); /* Mapping existing border uses */
   --font-sans: "Inter", sans-serif;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   body {
     background-color: var(--color-background);
@@ -33,7 +55,7 @@
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-surface);
   border-radius: 9999px;
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border);
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-primary);

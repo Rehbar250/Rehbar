@@ -43,7 +43,7 @@ export default function Hero() {
             {/* Make sure the resume is actually present in the public folder */}
             <a 
               href="/Rehbar/resume.pdf" 
-              download="Rehbar_Miyan_Resume.pdf"
+              download
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-surface text-text font-semibold rounded-lg hover:bg-gray-800 transition-all border border-gray-700 hover:border-primary/50"
             >
               <Download size={20} /> Download Resume
