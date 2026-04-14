@@ -42,7 +42,7 @@ export default function Hero() {
             </a>
             {/* Make sure the resume is actually present in the public folder */}
             <a 
-              href="/resume.pdf" 
+              href="/Rehbar/resume.pdf" 
               download="Rehbar_Miyan_Resume.pdf"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-surface text-text font-semibold rounded-lg hover:bg-gray-800 transition-all border border-gray-700 hover:border-primary/50"
             >
@@ -59,7 +59,7 @@ export default function Hero() {
         >
           <div className="aspect-[3/4] md:aspect-square rounded-2xl bg-surface border border-gray-800 shadow-2xl relative overflow-hidden group">
             <img 
-              src="/profile.jpg" 
+              src="/Rehbar/profile.jpg" 
               alt="Rehbar Miyan" 
               className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
             />
