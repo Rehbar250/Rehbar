@@ -68,3 +68,9 @@
 @utility glow-text {
   text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
+
+@utility glass {
+  background: rgba(var(--color-surface), 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

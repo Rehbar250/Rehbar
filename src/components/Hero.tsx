@@ -1,9 +1,18 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Download, ArrowRight } from 'lucide-react';
+import { ArrowRight, Eye } from 'lucide-react';
+import ResumeModal from './ResumeModal';
 
 export default function Hero() {
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <ResumeModal 
+        isOpen={isResumeOpen} 
+        onClose={() => setIsResumeOpen(false)} 
+        resumeUrl={`${import.meta.env.BASE_URL}resume.pdf`}
+      />
       {/* Background glowing effects */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primaryDark/20 rounded-full blur-[120px] -z-10" />
@@ -34,20 +43,22 @@ export default function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <a 
+            <motion.a 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href="#contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primaryDark transition-all glow"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-white font-semibold rounded-lg hover:bg-primaryDark transition-colors shadow-lg hover:shadow-primary/30 glow"
             >
               Get in Touch <ArrowRight size={20} />
-            </a>
-            {/* Make sure the resume is actually present in the public folder */}
-            <a 
-              href="/Rehbar/resume.pdf" 
-              download
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-surface text-text font-semibold rounded-lg hover:bg-gray-800 transition-all border border-gray-700 hover:border-primary/50"
+            </motion.a>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsResumeOpen(true)}
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-surface text-text font-semibold rounded-lg hover:bg-gray-800 transition-colors border border-gray-700 hover:border-primary/50 shadow-lg"
             >
-              <Download size={20} /> Download Resume
-            </a>
+              <Eye size={20} /> View Resume
+            </motion.button>
           </div>
         </motion.div>
         
@@ -59,7 +70,7 @@ export default function Hero() {
         >
           <div className="aspect-[3/4] md:aspect-square rounded-2xl bg-surface border border-gray-800 shadow-2xl relative overflow-hidden group">
             <img 
-              src="/Rehbar/profile.jpg" 
+              src={`${import.meta.env.BASE_URL}profile.jpg`} 
               alt="Rehbar Miyan" 
               className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
             />
