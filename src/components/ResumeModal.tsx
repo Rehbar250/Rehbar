@@ -85,7 +85,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, resumeUrl })
                   <Download size={16} /> Download
                 </a>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <a
                   href={resumeUrl}
