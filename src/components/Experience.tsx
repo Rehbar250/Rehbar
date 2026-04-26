@@ -36,6 +36,29 @@ const experienceData = [
     points: [
       "Built data visualizations for executive-level decision-making."
     ]
+  },
+  {
+    title: "Portfolio Website",
+    company: "React, Tailwind CSS, JavaScript",
+    date: "Personal Project",
+    points: [
+      "Developed a personal portfolio website to showcase projects, skills, and experience with a responsive and user-friendly interface.",
+      "Fully responsive design optimized for all screen sizes.",
+      "Resume download and preview functionality.",
+      "Contact form integration for direct communication."
+    ]
+  },
+  {
+    title: "AI Automation Dashboard",
+    company: "React, Node.js / FastAPI, REST APIs",
+    date: "Personal Project",
+    points: [
+      "Built an AI-powered dashboard to automate workflows, manage APIs, and monitor processes in real time.",
+      "API integrations for automation tasks.",
+      "Real-time monitoring dashboard with live data updates.",
+      "Secure authentication and token management.",
+      "Error handling and logging system."
+    ]
   }
 ];
 
