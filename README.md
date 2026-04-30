@@ -1,73 +1,55 @@
-# React + TypeScript + Vite
+# Rehbar Miyan — 3D Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, immersive portfolio website built with vanilla HTML, CSS, and JavaScript featuring **Three.js 3D visuals**, cinematic animations, and a custom cursor experience.
 
-Currently, two official plugins are available:
+## 🏗️ Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+Portfolio/
+├── index.html          # Main HTML entry point
+├── css/
+│   └── style.css       # Complete design system & responsive styles
+├── js/
+│   └── main.js         # Cursor, animations, Three.js 3D scenes, interactions
+├── public/
+│   ├── favicon.svg     # Site favicon
+│   ├── icons.svg       # Icon assets
+│   ├── profile.jpg     # Profile photo
+│   └── resume.pdf      # Downloadable resume
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ✨ Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **3D Hero Animation** — Interactive toroidal knot with orbiting particles (Three.js)
+- **3D About Visual** — Wireframe icosahedron with orbiting rings
+- **Particle Grid Background** — Animated canvas particles with subtle grid overlay
+- **Custom Cursor** — Dot + ring with mix-blend-mode & hover effects
+- **Scroll Reveal Animations** — Intersection Observer–driven fade-up transitions
+- **Responsive Design** — Mobile-first with hamburger navigation
+- **Noise Texture Overlay** — Subtle grain for a premium film-like feel
+- **Active Nav Tracking** — Highlights current section in the nav bar
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Tech Stack
+
+| Layer      | Technology                     |
+|------------|-------------------------------|
+| Structure  | HTML5 (semantic)              |
+| Styling    | Vanilla CSS (custom properties) |
+| Logic      | Vanilla JavaScript (ES6+)     |
+| 3D         | Three.js r128                 |
+| Fonts      | Bebas Neue, Outfit, Space Mono |
+
+## 🚀 Running Locally
+
+Just open `index.html` in a browser, or serve via any HTTP server:
+
+```bash
+npx http-server . -p 8080
 ```
+
+## 📧 Contact
+
+- **Email:** mrehbar2153@gmail.com
+- **GitHub:** [Rehbar250](https://github.com/Rehbar250)
+- **LinkedIn:** [rehbar-miyan](https://linkedin.com/in/rehbar-miyan-325498236)
