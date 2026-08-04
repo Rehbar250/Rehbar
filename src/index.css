@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #0C0C0C;
+    color: #D7E2EA;
+    font-family: 'Kanit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #0C0C0C;
+    color: #D7E2EA;
+    overflow-x: hidden;
+  }
+
+  /* Custom Sleek Dark Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0C0C0C;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #222934;
+    border-radius: 4px;
+    border: 2px solid #0C0C0C;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #364152;
+  }
+}
+
+/* Lenis 120Hz Smooth Scroll Rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Fluid Typography Utilities */
+.text-fluid-hero {
+  font-size: clamp(2.5rem, 7.5vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.text-fluid-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.text-fluid-sub {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+}
+
+/* Heading Gradient */
+.heading-gradient {
+  background: linear-gradient(135deg, #646973 0%, #9EABBA 50%, #BBCCD7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glassmorphism Styles */
+.glass-nav {
+  background: rgba(12, 12, 12, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(215, 226, 234, 0.08);
+}
+
+.glass-card {
+  background: rgba(18, 22, 28, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(215, 226, 234, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  background: rgba(26, 32, 41, 0.75);
+  border-color: rgba(187, 204, 215, 0.25);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(187, 204, 215, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Gradient Mesh Background */
+.bg-mesh-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  pointer-events: none;
+}
