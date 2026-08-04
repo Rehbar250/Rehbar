@@ -180,7 +180,7 @@ export const Hero: React.FC = () => {
                     
                     {/* 3D Holographic Workstation Image (GPU Accelerated 120 FPS) */}
                     <img
-                      src="/hologram_laptop.png"
+                      src="./hologram_laptop.png"
                       alt="Rehbar Miyan - 3D Holographic Developer Workstation"
                       loading="eager"
                       className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"

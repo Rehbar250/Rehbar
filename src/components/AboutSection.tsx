@@ -199,7 +199,7 @@ export const AboutSection: React.FC = () => {
                   <div className="relative w-full h-full rounded-full overflow-hidden bg-[#0C0C0C]">
                     {/* User's Professional Photograph Avatar */}
                     <img
-                      src="/rehbar_avatar.png"
+                      src="./rehbar_avatar.png"
                       alt="Rehbar Miyan - 3D Hologram Profile"
                       loading="eager"
                       className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
