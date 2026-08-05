@@ -1,27 +1,75 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import { Container } from './ui/Container';
 import { GradientText } from './ui/GradientText';
 import { Button } from './ui/Button';
-import { Mail, Phone, Github, Linkedin, FileText, Send, MessageCircle, MapPin, CheckCircle2, Sparkles } from 'lucide-react';
+import { Mail, MessageCircle, Github, Linkedin, FileText, Send, MapPin, CheckCircle2, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
 
-export const ContactSection: React.FC = () => {
+interface ContactSectionProps {
+  onOpenResume?: () => void;
+}
+
+export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResume }) => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
+    setErrorMessage(null);
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_portfolio';
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_portfolio';
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'user_public_key';
+
+    try {
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        reply_to: formData.email,
+        subject: formData.subject || 'Portfolio Direct Message',
+        message: formData.message,
+        to_name: 'Rehbar Miyan',
+      };
+
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
+      );
+
+      if (result.status === 200 || result.text === 'OK') {
+        setIsSubmitted(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
-      }, 3500);
-    }, 1200);
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 6000);
+      } else {
+        throw new Error(`EmailJS responded with status: ${result.status}`);
+      }
+    } catch (err: any) {
+      console.error('EmailJS Error:', err);
+      setErrorMessage(
+        'EmailJS service keys are not configured or encountered an issue. You can click below to send directly via your email client or WhatsApp!'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  const mailtoUrl = `mailto:mrehbar2153@gmail.com?subject=${encodeURIComponent(
+    formData.subject || 'Portfolio Inquiry'
+  )}&body=${encodeURIComponent(
+    `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+  )}`;
+
+  const whatsappUrl = `https://wa.me/917499775471?text=${encodeURIComponent(
+    `Hi Rehbar, my name is ${formData.name || 'Visitor'} (${formData.email || 'No email'}). ${formData.message}`
+  )}`;
 
   return (
     <section id="contact" className="py-32 relative bg-[#0C0C0C] overflow-hidden">
@@ -57,7 +105,7 @@ export const ContactSection: React.FC = () => {
             <div className="space-y-4 w-full mb-8">
               <a
                 href="mailto:mrehbar2153@gmail.com"
-                className="glass-card glass-card-hover p-4 rounded-2xl border border-white/10 flex items-center gap-4 text-sm font-medium text-[#D7E2EA] hover:text-white"
+                className="glass-card glass-card-hover p-4 rounded-2xl border border-white/10 flex items-center gap-4 text-sm font-medium text-[#D7E2EA] hover:text-white transition-all"
               >
                 <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-[#BBCCD7]">
                   <Mail className="w-5 h-5" />
@@ -72,7 +120,7 @@ export const ContactSection: React.FC = () => {
                 href="https://wa.me/917499775471"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glass-card glass-card-hover p-4 rounded-2xl border border-white/10 flex items-center gap-4 text-sm font-medium text-[#D7E2EA] hover:text-white"
+                className="glass-card glass-card-hover p-4 rounded-2xl border border-white/10 flex items-center gap-4 text-sm font-medium text-[#D7E2EA] hover:text-white transition-all"
               >
                 <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-emerald-400">
                   <MessageCircle className="w-5 h-5" />
@@ -117,10 +165,16 @@ export const ContactSection: React.FC = () => {
               </a>
 
               <a
-                href="/resume.pdf"
+                href="./resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full glass-card border border-white/10 text-[#BBCCD7] hover:border-[#BBCCD7]/50 transition-all flex items-center gap-1.5 px-4 text-xs font-mono"
+                onClick={(e) => {
+                  if (onOpenResume) {
+                    e.preventDefault();
+                    onOpenResume();
+                  }
+                }}
+                className="p-3 rounded-full glass-card border border-white/10 text-[#BBCCD7] hover:border-[#BBCCD7]/50 transition-all flex items-center gap-1.5 px-4 text-xs font-mono cursor-pointer"
               >
                 <FileText className="w-4 h-4" />
                 <span>Resume</span>
@@ -199,7 +253,38 @@ export const ContactSection: React.FC = () => {
                       className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 text-xs font-mono flex items-center gap-2"
                     >
                       <CheckCircle2 className="w-4 h-4 shrink-0" />
-                      <span>Thank you! Your message has been sent successfully. Rehbar will contact you soon.</span>
+                      <span>Thank you! Your message has been sent successfully via EmailJS. Rehbar will respond shortly.</span>
+                    </motion.div>
+                  )}
+
+                  {errorMessage && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="p-4 rounded-xl bg-amber-950/80 border border-amber-500/40 text-amber-300 text-xs font-mono flex flex-col gap-3"
+                    >
+                      <div className="flex items-center gap-2 text-amber-400 font-bold">
+                        <AlertCircle className="w-4 h-4 shrink-0" />
+                        <span>Notice</span>
+                      </div>
+                      <p>{errorMessage}</p>
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        <a
+                          href={mailtoUrl}
+                          className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-200 flex items-center gap-1.5 transition-all"
+                        >
+                          <Mail className="w-3.5 h-3.5" /> Send via Mail Client
+                        </a>
+                        <a
+                          href={whatsappUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 flex items-center gap-1.5 transition-all"
+                        >
+                          <MessageCircle className="w-3.5 h-3.5" /> Send via WhatsApp
+                        </a>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -212,7 +297,7 @@ export const ContactSection: React.FC = () => {
                   className="w-full py-4 text-base font-semibold"
                   icon={<Send className="w-4 h-4" />}
                 >
-                  {isSubmitting ? 'Sending Message...' : 'Send Message'}
+                  {isSubmitting ? 'Dispatching via EmailJS...' : 'Send Message'}
                 </Button>
               </form>
             </motion.div>

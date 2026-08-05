@@ -13,7 +13,11 @@ const navItems = [
   { name: 'Contact', href: '#contact' },
 ];
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  onOpenResume?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -39,6 +43,15 @@ export const Navbar: React.FC = () => {
       document.body.style.overflow = 'unset';
     }
   }, [mobileMenuOpen]);
+
+  const handleResumeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onOpenResume) {
+      onOpenResume();
+    } else {
+      window.open('./resume.pdf', '_blank');
+    }
+  };
 
   return (
     <header
@@ -79,10 +92,11 @@ export const Navbar: React.FC = () => {
 
           {/* Resume Button */}
           <a
-            href="/resume.pdf"
+            href="./resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium text-[#BBCCD7] hover:text-white bg-white/5 hover:bg-white/10 rounded-full border border-[#BBCCD7]/20 hover:border-[#BBCCD7]/50 transition-all duration-200"
+            onClick={handleResumeClick}
+            className="flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium text-[#BBCCD7] hover:text-white bg-white/5 hover:bg-white/10 rounded-full border border-[#BBCCD7]/20 hover:border-[#BBCCD7]/50 transition-all duration-200 cursor-pointer"
           >
             <FileText className="w-3.5 h-3.5 text-[#BBCCD7]" />
             <span>Resume</span>
@@ -127,14 +141,17 @@ export const Navbar: React.FC = () => {
               ))}
 
               <motion.a
-                href="/resume.pdf"
+                href="./resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  handleResumeClick(e);
+                }}
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navItems.length * 0.08 + 0.1, duration: 0.3 }}
-                className="mt-4 flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-[#181D24] text-white border border-[#BBCCD7]/30 text-lg font-semibold shadow-lg"
+                className="mt-4 flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-[#181D24] text-white border border-[#BBCCD7]/30 text-lg font-semibold shadow-lg cursor-pointer"
               >
                 <FileText className="w-5 h-5 text-[#BBCCD7]" />
                 <span>View Resume</span>

@@ -26,6 +26,7 @@ const projects: Project[] = [
     description: 'AI-driven security system utilizing deep learning & computer vision for real-time threat analysis, object tracking, and anomaly detection.',
     tech: ['Python', 'FastAPI', 'Computer Vision', 'Deep Learning', 'OpenCV'],
     githubUrl: 'https://github.com/Rehbar250/IndiTech-AI-Powered-Threat-Detection-System',
+    demoUrl: 'https://github.com/Rehbar250/IndiTech-AI-Powered-Threat-Detection-System',
     accentGradient: 'from-blue-600/20 via-indigo-600/10 to-cyan-500/20',
     icon: <ShieldAlert className="w-8 h-8 text-cyan-400" />,
   },
@@ -36,6 +37,7 @@ const projects: Project[] = [
     description: 'Intelligent task automation pipeline tool for workflow orchestration, task execution scheduling, and system health monitoring.',
     tech: ['TypeScript', 'Node.js', 'CLI Engine', 'SQLite', 'Workflow API'],
     githubUrl: 'https://github.com/Rehbar250/AutoMate',
+    demoUrl: 'https://github.com/Rehbar250/AutoMate',
     accentGradient: 'from-[#BBCCD7]/20 via-blue-500/10 to-[#646973]/20',
     icon: <Cpu className="w-8 h-8 text-[#BBCCD7]" />,
   },
@@ -46,6 +48,7 @@ const projects: Project[] = [
     description: 'Interactive 3D particle simulation controlled via MediaPipe real-time hand gesture tracking and WebGL GPU particle shaders.',
     tech: ['Three.js', 'MediaPipe', 'WebGL', 'JavaScript', 'Canvas 2D/3D'],
     githubUrl: 'https://github.com/Rehbar250/3D-hand-gesture-particles',
+    demoUrl: 'https://rehbar250.github.io/3D-hand-gesture-particles/',
     accentGradient: 'from-purple-600/20 via-[#BBCCD7]/10 to-indigo-500/20',
     icon: <Code2 className="w-8 h-8 text-purple-400" />,
   },
@@ -56,6 +59,7 @@ const projects: Project[] = [
     description: 'Comprehensive hiring dashboard featuring candidate analytics, stage tracking, role management, and interactive metrics reporting.',
     tech: ['React 19', 'Next.js', 'Tailwind CSS', 'TypeScript', 'Analytics UIs'],
     githubUrl: 'https://github.com/Rehbar250/HIREFLOW-DASHBOARD',
+    demoUrl: 'https://rehbar250.github.io/HIREFLOW-DASHBOARD/',
     accentGradient: 'from-[#646973]/20 via-blue-500/10 to-[#BBCCD7]/20',
     icon: <Layers className="w-8 h-8 text-blue-400" />,
   },
@@ -65,7 +69,8 @@ const projects: Project[] = [
     category: 'College / Academic',
     description: 'Academic evaluation platform designed for universities to manage student technical assessments, test submissions, and metrics.',
     tech: ['JavaScript', 'Node.js', 'Express', 'MongoDB', 'HTML/CSS'],
-    githubUrl: 'https://github.com/Rehbar250',
+    githubUrl: 'https://github.com/Rehbar250/Academic-Assessment-Platform',
+    demoUrl: 'https://github.com/Rehbar250/Academic-Assessment-Platform',
     accentGradient: 'from-amber-600/20 via-[#BBCCD7]/10 to-blue-600/20',
     icon: <Terminal className="w-8 h-8 text-amber-400" />,
   },
@@ -75,7 +80,8 @@ const projects: Project[] = [
     category: 'AI & Data Intelligence',
     description: 'AI-assisted research application that automatically gathers company profiles, market trends, and intelligence insights via LLMs.',
     tech: ['Python', 'LLM Prompt Engine', 'React', 'Tailwind CSS', 'REST APIs'],
-    githubUrl: 'https://github.com/Rehbar250',
+    githubUrl: 'https://github.com/Rehbar250/AI-Company-Research-App',
+    demoUrl: 'https://github.com/Rehbar250/AI-Company-Research-App',
     accentGradient: 'from-emerald-600/20 via-cyan-600/10 to-[#BBCCD7]/20',
     icon: <FolderGit2 className="w-8 h-8 text-emerald-400" />,
   },
@@ -101,7 +107,7 @@ const ProjectCardItem: React.FC<{ project: Project; index: number; total: number
     <div ref={cardRef} className="my-8">
       <motion.div style={{ scale, opacity, y, willChange: 'transform, opacity' }}>
         <Magnetic intensity={0.08}>
-          <div className="group cursor-pointer">
+          <div className="group">
             <div className="relative rounded-3xl glass-card border border-white/15 p-8 md:p-12 shadow-[0_30px_70px_rgba(0,0,0,0.9)] overflow-hidden transition-all duration-500 hover:border-[#BBCCD7]/40">
               {/* Background Accent Gradient */}
               <div
@@ -156,12 +162,12 @@ const ProjectCardItem: React.FC<{ project: Project; index: number; total: number
                     <Button
                       variant="outline"
                       size="md"
-                      href={project.githubUrl}
+                      href={project.demoUrl || project.githubUrl}
                       target="_blank"
                       icon={<ExternalLink className="w-4 h-4" />}
                       iconPosition="right"
                     >
-                      View Repository
+                      Live Demo
                     </Button>
                   </div>
                 </div>

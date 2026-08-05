@@ -5,7 +5,11 @@ import { Container } from './ui/Container';
 import { Button } from './ui/Button';
 import { Magnetic } from './ui/Magnetic';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onOpenResume?: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
   // Mouse Parallax Physics tuned for 120 FPS / 120Hz Displays
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -138,8 +142,14 @@ export const Hero: React.FC = () => {
               <Button
                 variant="ghost"
                 size="lg"
-                href="/resume.pdf"
+                href="./resume.pdf"
                 target="_blank"
+                onClick={(e) => {
+                  if (onOpenResume) {
+                    e.preventDefault();
+                    onOpenResume();
+                  }
+                }}
                 icon={<FileText className="w-4 h-4 text-[#BBCCD7]" />}
                 iconPosition="left"
               >
