@@ -4,7 +4,7 @@ import emailjs from '@emailjs/browser';
 import { Container } from './ui/Container';
 import { GradientText } from './ui/GradientText';
 import { Button } from './ui/Button';
-import { Mail, MessageCircle, Github, Linkedin, FileText, Send, MapPin, CheckCircle2, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
+import { Mail, MessageCircle, Github, Linkedin, FileText, Send, MapPin, CheckCircle2, Sparkles, AlertCircle } from 'lucide-react';
 import resumePdf from '../assets/resume.pdf';
 
 interface ContactSectionProps {
@@ -22,44 +22,80 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResume }) 
     setIsSubmitting(true);
     setErrorMessage(null);
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_portfolio';
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_portfolio';
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'user_public_key';
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    try {
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        reply_to: formData.email,
-        subject: formData.subject || 'Portfolio Direct Message',
-        message: formData.message,
-        to_name: 'Rehbar Miyan',
-      };
+    let sentSuccessfully = false;
 
-      const result = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        publicKey
-      );
+    // 1. Try EmailJS if valid credentials exist
+    if (
+      serviceId &&
+      templateId &&
+      publicKey &&
+      !serviceId.includes('service_portfolio') &&
+      !publicKey.includes('user_public_key')
+    ) {
+      try {
+        const templateParams = {
+          from_name: formData.name,
+          from_email: formData.email,
+          reply_to: formData.email,
+          subject: formData.subject || 'Portfolio Direct Message',
+          message: formData.message,
+          to_name: 'Rehbar Miyan',
+        };
 
-      if (result.status === 200 || result.text === 'OK') {
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => {
-          setIsSubmitted(false);
-        }, 6000);
-      } else {
-        throw new Error(`EmailJS responded with status: ${result.status}`);
+        const result = await emailjs.send(serviceId, templateId, templateParams, publicKey);
+        if (result.status === 200 || result.text === 'OK') {
+          sentSuccessfully = true;
+        }
+      } catch (err) {
+        console.warn('EmailJS attempt failed, falling back to FormSubmit API:', err);
       }
-    } catch (err: any) {
-      console.error('EmailJS Error:', err);
-      setErrorMessage(
-        'EmailJS service keys are not configured or encountered an issue. You can click below to send directly via your email client or WhatsApp!'
-      );
-    } finally {
-      setIsSubmitting(false);
     }
+
+    // 2. If EmailJS was not used or failed, use FormSubmit API directly to mrehbar2153@gmail.com
+    if (!sentSuccessfully) {
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/mrehbar2153@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject || 'New Portfolio Message from ' + formData.name,
+            message: formData.message,
+            _captcha: 'false',
+          }),
+        });
+
+        const data = await response.json();
+        if (response.ok && (data.success === 'true' || data.success === true || data.message?.includes('sent'))) {
+          sentSuccessfully = true;
+        }
+      } catch (err) {
+        console.error('FormSubmit API Error:', err);
+      }
+    }
+
+    // 3. Handle Results
+    if (sentSuccessfully) {
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 6000);
+    } else {
+      setErrorMessage(
+        'Unable to send message directly. Please click below to send via your email client or WhatsApp.'
+      );
+    }
+
+    setIsSubmitting(false);
   };
 
   const mailtoUrl = `mailto:mrehbar2153@gmail.com?subject=${encodeURIComponent(
@@ -254,7 +290,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResume }) 
                       className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 text-xs font-mono flex items-center gap-2"
                     >
                       <CheckCircle2 className="w-4 h-4 shrink-0" />
-                      <span>Thank you! Your message has been sent successfully via EmailJS. Rehbar will respond shortly.</span>
+                      <span>Thank you! Your message has been sent successfully to Rehbar (mrehbar2153@gmail.com).</span>
                     </motion.div>
                   )}
 
@@ -298,7 +334,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResume }) 
                   className="w-full py-4 text-base font-semibold"
                   icon={<Send className="w-4 h-4" />}
                 >
-                  {isSubmitting ? 'Dispatching via EmailJS...' : 'Send Message'}
+                  {isSubmitting ? 'Sending Message...' : 'Send Message'}
                 </Button>
               </form>
             </motion.div>
