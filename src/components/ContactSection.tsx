@@ -5,6 +5,7 @@ import { Container } from './ui/Container';
 import { GradientText } from './ui/GradientText';
 import { Button } from './ui/Button';
 import { Mail, MessageCircle, Github, Linkedin, FileText, Send, MapPin, CheckCircle2, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
+import resumePdf from '../assets/resume.pdf';
 
 interface ContactSectionProps {
   onOpenResume?: () => void;
@@ -165,7 +166,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResume }) 
               </a>
 
               <a
-                href="./resume.pdf"
+                href={resumePdf}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => {

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, ExternalLink, FileText } from 'lucide-react';
+import resumePdf from '../assets/resume.pdf';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -8,7 +9,7 @@ interface ResumeModalProps {
 }
 
 export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
-  const resumeUrl = './resume.pdf';
+  const resumeUrl = resumePdf;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

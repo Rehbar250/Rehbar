@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, FileText, ArrowUpRight } from 'lucide-react';
 import { Container } from './ui/Container';
 import { Magnetic } from './ui/Magnetic';
+import resumePdf from '../assets/resume.pdf';
 
 const navItems = [
   { name: 'About', href: '#about' },
@@ -49,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
     if (onOpenResume) {
       onOpenResume();
     } else {
-      window.open('./resume.pdf', '_blank');
+      window.open(resumePdf, '_blank');
     }
   };
 
@@ -92,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
           {/* Resume Button */}
           <a
-            href="./resume.pdf"
+            href={resumePdf}
             target="_blank"
             rel="noopener noreferrer"
             onClick={handleResumeClick}
@@ -141,7 +142,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
               ))}
 
               <motion.a
-                href="./resume.pdf"
+                href={resumePdf}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => {

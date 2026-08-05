@@ -4,6 +4,7 @@ import { Github, Linkedin, FileText, Mail, ArrowDown, Sparkles, Terminal, Code2,
 import { Container } from './ui/Container';
 import { Button } from './ui/Button';
 import { Magnetic } from './ui/Magnetic';
+import resumePdf from '../assets/resume.pdf';
 
 interface HeroProps {
   onOpenResume?: () => void;
@@ -142,7 +143,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               <Button
                 variant="ghost"
                 size="lg"
-                href="./resume.pdf"
+                href={resumePdf}
                 target="_blank"
                 onClick={(e) => {
                   if (onOpenResume) {
